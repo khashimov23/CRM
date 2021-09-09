@@ -4,10 +4,15 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 
+
+
 from .models import *
 from .forms import OrderForm, CreateUserForm, CustomerForm
 from .filters import OrderFilter
 from .decorators import unauthenticated_user, allowed_users, admin_only
+
+
+
 
 # register
 @unauthenticated_user
@@ -19,12 +24,7 @@ def registerPage(request):
             user = form.save()
             username = form.cleaned_data.get('username')
             
-            group = Group.objects.get(name='customer')
-            user.groups.add(group)
-            Customer.objects.create(
-                user=user,
-            )
-
+            
             messages.success(request, 'Account was created for ' + username)
 
             return redirect('login')
